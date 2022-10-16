@@ -1,0 +1,104 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Ball.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Player2.gd" type="Script" id=3]
+[ext_resource path="res://Level.gd" type="Script" id=4]
+[ext_resource path="res://fonts/Silkscreen-Regular.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://music/goal.mp3" type="AudioStream" id=6]
+[ext_resource path="res://music/ambientation.mp3" type="AudioStream" id=7]
+[ext_resource path="res://images/pause.png" type="Texture" id=8]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 960, 50 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 50, 540 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 50
+font_data = ExtResource( 5 )
+
+[node name="Level" type="Node2D"]
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_vertical_guides_": [ 960.0 ]
+}
+
+[node name="UpWall" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UpWall"]
+position = Vector2( 960, -50 )
+shape = SubResource( 1 )
+
+[node name="DownWall" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DownWall"]
+position = Vector2( 960, 1130 )
+shape = SubResource( 1 )
+
+[node name="PlayerWall" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerWall"]
+position = Vector2( -50, 540 )
+shape = SubResource( 2 )
+
+[node name="OponentWall" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OponentWall"]
+position = Vector2( 1970, 540 )
+shape = SubResource( 2 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 50, 460 )
+
+[node name="Oponent" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1870, 460 )
+script = ExtResource( 3 )
+
+[node name="Ball" parent="." instance=ExtResource( 2 )]
+position = Vector2( 960, 541 )
+
+[node name="ScorePlayer" type="Label" parent="."]
+margin_left = -250.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+custom_colors/font_color = Color( 0.0784314, 0.847059, 1, 1 )
+custom_fonts/font = SubResource( 3 )
+text = "Score"
+align = 1
+valign = 1
+
+[node name="ScoreOponent" type="Label" parent="."]
+margin_left = 250.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+custom_colors/font_color = Color( 0.0784314, 0.847059, 1, 1 )
+custom_fonts/font = SubResource( 3 )
+text = "Score"
+align = 1
+valign = 1
+
+[node name="AudioGoal" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+
+[node name="RestartTimer" type="Timer" parent="."]
+
+[node name="AudioAmbient" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+volume_db = 1.0
+
+[node name="Pause" type="Button" parent="."]
+visible = false
+margin_left = 913.0
+margin_top = 30.0
+margin_right = 1013.0
+margin_bottom = 130.0
+icon = ExtResource( 8 )
+flat = true
+icon_align = 1
+expand_icon = true
+
+[connection signal="body_entered" from="PlayerWall" to="." method="_on_PlayerWall_body_entered"]
+[connection signal="body_entered" from="OponentWall" to="." method="_on_OponentWall_body_entered"]
+[connection signal="timeout" from="RestartTimer" to="Ball" method="_on_RestartTimer_timeout"]

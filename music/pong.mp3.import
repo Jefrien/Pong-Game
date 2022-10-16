@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/pong.mp3-1010c9f5f680d60e6ec701191dc81aad.mp3str"
+
+[deps]
+
+source_file="res://music/pong.mp3"
+dest_files=[ "res://.import/pong.mp3-1010c9f5f680d60e6ec701191dc81aad.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0
